@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "SupportFlow"
+description = "A complete support ticket management app for colleges, with student ticketing, agent resolution workflows, administrator analytics, role-based access, and persistent records."
+version = "1.0.0"
+id = "artifacts/supportflow"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25588
+
+[services.development]
+run = "pnpm --filter @workspace/supportflow run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/supportflow", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/supportflow/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25588"
+BASE_PATH = "/"
